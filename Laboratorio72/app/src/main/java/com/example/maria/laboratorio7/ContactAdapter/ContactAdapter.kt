@@ -2,9 +2,9 @@ package com.example.maria.laboratorio7.ContactAdapter
 
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,11 +48,11 @@ class ContactAdapter : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF_C
         return getItem(position)
     }
 
-    inner class ContactHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+    inner class ContactHolder(itemView: View): androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView){
         init {
             itemView.setOnClickListener{
                 val position=adapterPosition
-                if (position!=RecyclerView.NO_POSITION) {
+                if (position!= androidx.recyclerview.widget.RecyclerView.NO_POSITION) {
                     listener?.onItemClick(getItem(position))
                 }
             }

@@ -2,11 +2,11 @@ package com.example.maria.laboratorio7
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
@@ -17,9 +17,6 @@ import com.example.maria.laboratorio7.ContactAdapter.ContactAdapter
 import com.example.maria.laboratorio7.data.Contact
 import com.example.maria.laboratorio7.viewmodels.ContactViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 //errores en recycle view
 class MainActivity : AppCompatActivity() {
 
@@ -38,8 +35,8 @@ class MainActivity : AppCompatActivity() {
                 Intent(this, AgregarEditarContactoActivity::class.java), AGREGAR_CONTACTO_REQUEST
             )
         }
-
-        recycler_view.layoutManager = LinearLayoutManager(this)
+val recycler_view: androidx.recyclerview.widget.RecyclerView =findViewById(R.id.recycler_view)
+        recycler_view.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)
 
         var adapter=ContactAdapter()
@@ -53,21 +50,21 @@ class MainActivity : AppCompatActivity() {
 
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)) {
             override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
+                recyclerView: androidx.recyclerview.widget.RecyclerView,
+                viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
+                target: androidx.recyclerview.widget.RecyclerView.ViewHolder
             ): Boolean {
                 return false
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, direction: Int) {
                 contactViewModel.delete(adapter.getContactAt(viewHolder.adapterPosition))
                 Toast.makeText(baseContext, "Contacto Eliminado!", Toast.LENGTH_SHORT).show()
             }
         }
         ).attachToRecyclerView(recycler_view)
 
-        adapter.setOnItemClickListener(object :ContactAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object :ContactAdapter.onItemClickListener{
             override fun onItemClick(contact: Contact){
                 var intent=Intent(baseContext, AgregarEditarContactoActivity::class.java)
                 intent.putExtra(AgregarEditarContactoActivity.EXTRA_ID, contact.id)
