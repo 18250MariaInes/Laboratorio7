@@ -17,7 +17,7 @@ import com.example.maria.laboratorio7.ContactAdapter.ContactAdapter
 import com.example.maria.laboratorio7.data.Contact
 import com.example.maria.laboratorio7.viewmodels.ContactViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-//errores en recycle view
+//FIN DE TUTORIAL
 class MainActivity : AppCompatActivity() {
 
     companion object {
