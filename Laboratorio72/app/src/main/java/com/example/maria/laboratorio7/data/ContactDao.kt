@@ -1,6 +1,6 @@
 package com.example.maria.laboratorio7.data
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao

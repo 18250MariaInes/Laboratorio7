@@ -1,18 +1,26 @@
 package com.example.maria.laboratorio7
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.maria.laboratorio7.ContactAdapter.ContactAdapter
 import com.example.maria.laboratorio7.data.Contact
+import com.example.maria.laboratorio7.viewmodels.ContactViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+//errores en recycle view
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -25,14 +33,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recycler_view.layoutManager=LinearLayout(this)
-        recycler_view.setHasFixedsize(true)
+        buttonAddNote.setOnClickListener{
+            startActivityForResult(
+                Intent(this, AgregarEditarContactoActivity::class.java), AGREGAR_CONTACTO_REQUEST
+            )
+        }
+
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.setHasFixedSize(true)
 
         var adapter=ContactAdapter()
 
         recycler_view.adapter=adapter
 
-        contactViewModel= ViewModelProviders.of(this).get(ContactViewModel::class.java)
+        contactViewModel = ViewModelProviders.of(this).get(ContactViewModel::class.java)
         contactViewModel.getAllContacts().observe(this, Observer<List<Contact>>{
             adapter.submitList(it)
         })
@@ -53,5 +67,66 @@ class MainActivity : AppCompatActivity() {
         }
         ).attachToRecyclerView(recycler_view)
 
+        adapter.setOnItemClickListener(object :ContactAdapter.OnItemClickListener{
+            override fun onItemClick(contact: Contact){
+                var intent=Intent(baseContext, AgregarEditarContactoActivity::class.java)
+                intent.putExtra(AgregarEditarContactoActivity.EXTRA_ID, contact.id)
+                intent.putExtra(AgregarEditarContactoActivity.EXTRA_NOMBRE, contact.nombre)
+                intent.putExtra(AgregarEditarContactoActivity.EXTRA_NUMERO, contact.numero)
+                intent.putExtra(AgregarEditarContactoActivity.EXTRA_CORREO, contact.correo)
+                intent.putExtra(AgregarEditarContactoActivity.EXTRA_PRIORITY, contact.prioridad)
+                startActivityForResult(intent, EDITAR_CONTACTO_REQUEST)
+            }
+        })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mainmenu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId){
+            R.id.delete_all_notes->{
+                contactViewModel.deleteAllContacts()
+                Toast.makeText(this, "Todos los contactos han sido borrados", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else ->{
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode== AGREGAR_CONTACTO_REQUEST && resultCode== Activity.RESULT_OK){
+            val newContact=Contact(
+                data!!.getStringExtra(AgregarEditarContactoActivity.EXTRA_NOMBRE),
+                data.getStringExtra(AgregarEditarContactoActivity.EXTRA_CORREO),
+                data.getStringExtra(AgregarEditarContactoActivity.EXTRA_NUMERO),
+                data.getIntExtra(AgregarEditarContactoActivity.EXTRA_PRIORITY, 1)
+            )
+            contactViewModel.insert(newContact)
+            Toast.makeText(this, "Contacto guardado", Toast.LENGTH_SHORT).show()
+        }else if (requestCode == EDITAR_CONTACTO_REQUEST && resultCode == Activity.RESULT_OK){
+            val id=data?.getIntExtra(AgregarEditarContactoActivity.EXTRA_ID, -1)
+
+            if (id==-1){
+                Toast.makeText(this, "No se logro editar", Toast.LENGTH_SHORT).show()
+            }
+
+            val actContact=Contact(
+                data!!.getStringExtra(AgregarEditarContactoActivity.EXTRA_NOMBRE),
+                data.getStringExtra(AgregarEditarContactoActivity.EXTRA_CORREO),
+                data.getStringExtra(AgregarEditarContactoActivity.EXTRA_NUMERO),
+                data.getIntExtra(AgregarEditarContactoActivity.EXTRA_PRIORITY, 1)
+            )
+            actContact.id=data.getIntExtra(AgregarEditarContactoActivity.EXTRA_ID, -1)
+            contactViewModel.update(actContact)
+        }else{
+            Toast.makeText(this, "ERROR NO SE PUDO GUARDAR", Toast.LENGTH_SHORT).show()
+        }
     }
 }

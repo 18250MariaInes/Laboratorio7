@@ -1,7 +1,7 @@
 package com.example.maria.laboratorio7.data
 
 import android.app.Application
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import android.os.AsyncTask
 
 class ContactRepository(application: Application) {
@@ -62,6 +62,5 @@ class ContactRepository(application: Application) {
                 contactDao.deleteAllContacts()
             }
         }
-
     }
 }
