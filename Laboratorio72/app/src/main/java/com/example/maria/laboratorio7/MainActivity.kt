@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.GestureDetector
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -58,8 +60,18 @@ val recycler_view: androidx.recyclerview.widget.RecyclerView =findViewById(R.id.
             }
 
             override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, direction: Int) {
-                contactViewModel.delete(adapter.getContactAt(viewHolder.adapterPosition))
-                Toast.makeText(baseContext, "Contacto Eliminado!", Toast.LENGTH_SHORT).show()
+                if (direction==ItemTouchHelper.RIGHT) {
+                    contactViewModel.delete(adapter.getContactAt(viewHolder.adapterPosition))
+                    Toast.makeText(baseContext, "Contacto Eliminado!", Toast.LENGTH_SHORT).show()
+                }else{
+                    var intent=Intent(baseContext, MostrarContacto::class.java)
+                    intent.putExtra(MostrarContacto.EXTRA_ID, adapter.getContactAt(viewHolder.adapterPosition).id)
+                    intent.putExtra(MostrarContacto.EXTRA_NOMBRE, adapter.getContactAt(viewHolder.adapterPosition).nombre)
+                    intent.putExtra(MostrarContacto.EXTRA_NUMERO, adapter.getContactAt(viewHolder.adapterPosition).numero)
+                    intent.putExtra(MostrarContacto.EXTRA_CORREO, adapter.getContactAt(viewHolder.adapterPosition).correo)
+                    intent.putExtra(MostrarContacto.EXTRA_PRIORITY, adapter.getContactAt(viewHolder.adapterPosition).prioridad)
+                    startActivityForResult(intent, EDITAR_CONTACTO_REQUEST)
+                }
             }
         }
         ).attachToRecyclerView(recycler_view)
@@ -75,6 +87,7 @@ val recycler_view: androidx.recyclerview.widget.RecyclerView =findViewById(R.id.
                 startActivityForResult(intent, EDITAR_CONTACTO_REQUEST)
             }
         })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

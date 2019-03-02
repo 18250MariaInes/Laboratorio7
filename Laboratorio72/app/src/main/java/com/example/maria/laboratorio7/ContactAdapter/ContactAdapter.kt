@@ -14,8 +14,11 @@ import android.widget.TextView
 import com.example.maria.laboratorio7.R
 import com.example.maria.laboratorio7.data.Contact
 import kotlinx.android.synthetic.main.contact_item.view.*
+import com.example.maria.laboratorio7.ContactAdapter.ContactAdapter.ItemLongClickListener
 
-class ContactAdapter : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF_CALLBACK) {
+
+
+class ContactAdapter : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF_CALLBACK), View.OnLongClickListener {
     companion object {
         private val DIFF_CALLBACK=object :DiffUtil.ItemCallback<Contact>(){
             override fun areItemsTheSame(p0: Contact, p1: Contact): Boolean {
@@ -30,6 +33,7 @@ class ContactAdapter : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF_C
     }
 
     private var listener:onItemClickListener?=null
+    private var itemLongClickListener: ItemLongClickListener?=null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):ContactHolder{
@@ -64,6 +68,18 @@ class ContactAdapter : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF_C
 
     interface onItemClickListener{
         fun onItemClick(contact: Contact)
+    }
+    interface ItemLongClickListener{
+        fun onLongItemClick(view: View)
+    }
+
+    fun setItemLongClickListener(ic: ItemLongClickListener) {
+        this.itemLongClickListener = ic
+    }
+
+    override fun onLongClick(v: View): Boolean {
+        this.itemLongClickListener!!.onLongItemClick(v)
+        return false
     }
     fun setOnItemClickListener(listener: onItemClickListener){
         this.listener=listener

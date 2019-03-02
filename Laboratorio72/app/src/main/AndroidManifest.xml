@@ -23,6 +23,8 @@
                 android:name=".AgregarEditarContactoActivity"
                 android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".MostrarContacto">
+        </activity>
     </application>
 
 </manifest>

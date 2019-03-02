@@ -47,6 +47,7 @@ class AgregarEditarContactoActivity : AppCompatActivity() {
         return when (item?.itemId){
             R.id.save_note->{
                 saveContact()
+                //Toast.makeText(this, "guarda contacto", Toast.LENGTH_SHORT).show()
                 true
             }
             else ->super.onOptionsItemSelected(item)
@@ -57,6 +58,7 @@ class AgregarEditarContactoActivity : AppCompatActivity() {
             Toast.makeText(this, "No puede crear un contacto vacio", Toast.LENGTH_SHORT).show()
             return
         }
+        //Toast.makeText(this, "estoy arriba de data", Toast.LENGTH_SHORT).show()
         val data= Intent().apply{
             putExtra(EXTRA_NOMBRE, edit_text_nombre.text.toString())
             putExtra(EXTRA_CORREO, edit_text_correo.text.toString())
@@ -66,6 +68,8 @@ class AgregarEditarContactoActivity : AppCompatActivity() {
                 putExtra(EXTRA_ID, intent.getIntExtra(EXTRA_ID, -1))
             }
         }
+        //Toast.makeText(this, "Contacto actualizado", Toast.LENGTH_SHORT).show()
+
         setResult(Activity.RESULT_OK, data)
         finish()
     }
