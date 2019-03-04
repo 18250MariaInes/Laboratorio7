@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-
+//clase que maneja la base de datos de contactos y se encarga que su actualizacion siempre sea sincronizada y ordenada
 @Database (entities = [Contact::class], version = 1)
 abstract class ContactDatabase : RoomDatabase(){
 

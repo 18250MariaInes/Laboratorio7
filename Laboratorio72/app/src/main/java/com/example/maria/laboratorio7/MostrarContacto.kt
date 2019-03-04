@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-
+//clase que se encarga de mostrar contacto y brinda la opcion de llamar o mandar mensaje
 class MostrarContacto : AppCompatActivity() {
     lateinit var  txtcorreo: TextView
     lateinit var txtnumero: TextView
@@ -19,11 +19,6 @@ class MostrarContacto : AppCompatActivity() {
         const val EXTRA_PRIORITY = "com.example.maria.laboratorio7.EXTRA_PRIORITY"
         const val EXTRA_CORREO = "com.example.maria.laboratorio7.EXTRA_CORREO"
     }
-    /*val numero=intent.getStringExtra(EXTRA_NUMERO)
-    val correo=intent.getStringExtra(EXTRA_CORREO)
-    val nombre=intent.getStringExtra(EXTRA_NOMBRE)
-    val prioridad=intent.getStringExtra(EXTRA_PRIORITY)
-    val id=intent.getStringExtra(EXTRA_ID)*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +34,7 @@ class MostrarContacto : AppCompatActivity() {
         txtnumero.setText(intent.getStringExtra(EXTRA_NUMERO))
         txtcorreo.setText(intent.getStringExtra(EXTRA_CORREO))
         txtprioridad.setText(intent.getStringExtra(EXTRA_PRIORITY))
-
+//realizar llamada al seleccionar el numero de telefono
         txtnumero.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
             intent.data = Uri.parse("tel:"+numero)
@@ -64,7 +59,7 @@ class MostrarContacto : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
-    fun editar (view: View){
+    /*fun editar (view: View){
         val numero=intent.getStringExtra(EXTRA_NUMERO)
         val correo=intent.getStringExtra(EXTRA_CORREO)
         val nombre=intent.getStringExtra(EXTRA_NOMBRE)
@@ -77,5 +72,5 @@ class MostrarContacto : AppCompatActivity() {
         intent.putExtra(AgregarEditarContactoActivity.EXTRA_PRIORITY, prioridad)
         intent.putExtra(AgregarEditarContactoActivity.EXTRA_ID, id)
         startActivityForResult(intent,-1)
-    }
+    }*/
 }

@@ -8,7 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_agregar_editar_contacto.*
-
+//clase que se encarga de crear y actualizar contactos
 class AgregarEditarContactoActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_ID = "com.example.maria.laboratorio7.EXTRA_ID"
@@ -26,7 +26,7 @@ class AgregarEditarContactoActivity : AppCompatActivity() {
         number_picker_priority.maxValue = 10
 
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close)
-
+//muestra la info de contacto si ya habia sido creado para escribir sobre ella
         if (intent.hasExtra(EXTRA_ID)){
             title="Editar contacto"
             edit_text_nombre.setText(intent.getStringExtra(EXTRA_NOMBRE))
@@ -53,6 +53,7 @@ class AgregarEditarContactoActivity : AppCompatActivity() {
             else ->super.onOptionsItemSelected(item)
         }
     }
+    //metodo que se encarga de crear y actualizar los contactos
     private fun saveContact(){
         if (edit_text_nombre.text.toString().trim().isBlank()|| edit_text_correo.text.toString().trim().isBlank()||edit_text_numero.text.toString().trim().isBlank()){
             Toast.makeText(this, "No puede crear un contacto vacio", Toast.LENGTH_SHORT).show()
@@ -68,7 +69,7 @@ class AgregarEditarContactoActivity : AppCompatActivity() {
                 putExtra(EXTRA_ID, intent.getIntExtra(EXTRA_ID, -1))
             }
         }
-        //Toast.makeText(this, "Contacto actualizado", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Contacto actualizado ESTOY AFUERA", Toast.LENGTH_SHORT).show()
 
         setResult(Activity.RESULT_OK, data)
         finish()

@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.contact_item.view.*
 import com.example.maria.laboratorio7.ContactAdapter.ContactAdapter.ItemLongClickListener
 
 
-
+//adapter de contactos que se utiliza en el main para su visualizacion e interaccion
 class ContactAdapter : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF_CALLBACK), View.OnLongClickListener {
     companion object {
         private val DIFF_CALLBACK=object :DiffUtil.ItemCallback<Contact>(){
@@ -40,10 +40,9 @@ class ContactAdapter : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF_C
         val itemView:View=LayoutInflater.from(parent.context).inflate(R.layout.contact_item, parent, false)
         return ContactHolder(itemView)
     }
-
+    //metodos para mostrar en el main su nombre, numero y prioridad
     override fun onBindViewHolder(holder: ContactHolder, position: Int){
         val currentContact:Contact=getItem(position)
-
         holder.contactViewNombre.text=currentContact.nombre
         holder.contactViewPrioridad.text=currentContact.prioridad.toString()
         holder.contactViewNumero.text=currentContact.numero
@@ -65,7 +64,7 @@ class ContactAdapter : ListAdapter<Contact, ContactAdapter.ContactHolder>(DIFF_C
         var contactViewPrioridad:TextView=itemView.contact_priority
         var contactViewNumero:TextView=itemView.contact_number
     }
-
+//metodos para su seleccion en el recycleview
     interface onItemClickListener{
         fun onItemClick(contact: Contact)
     }

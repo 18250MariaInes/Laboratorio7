@@ -2,7 +2,8 @@ package com.example.maria.laboratorio7.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-
+//Data access object
+//Maneja la informacion de los contactos por metodos CRUD
 @Dao
 interface ContactDao {
     @Insert

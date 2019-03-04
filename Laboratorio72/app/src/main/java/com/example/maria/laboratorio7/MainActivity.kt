@@ -20,8 +20,9 @@ import com.example.maria.laboratorio7.data.Contact
 import com.example.maria.laboratorio7.viewmodels.ContactViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 //FIN DE TUTORIAL
+//VERSION FINAL Y COMENTADA
 class MainActivity : AppCompatActivity() {
-
+//Main que muestra el recycleview de contactos y permite la opcion de eliminarlos, mostrarlos y actualizarlos
     companion object {
         const val AGREGAR_CONTACTO_REQUEST=1
         const val EDITAR_CONTACTO_REQUEST=2
@@ -49,7 +50,7 @@ val recycler_view: androidx.recyclerview.widget.RecyclerView =findViewById(R.id.
         contactViewModel.getAllContacts().observe(this, Observer<List<Contact>>{
             adapter.submitList(it)
         })
-
+//metodos que permiten la interaccion por medio de movimientos con el recycleview
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT.or(ItemTouchHelper.RIGHT)) {
             override fun onMove(
                 recyclerView: androidx.recyclerview.widget.RecyclerView,
@@ -58,7 +59,7 @@ val recycler_view: androidx.recyclerview.widget.RecyclerView =findViewById(R.id.
             ): Boolean {
                 return false
             }
-
+//al darle swipe a la derecha se elimina el contacto pero al darle swipe a la izquierda se muestraa su informacion y permite llamarlo o mandarle correo
             override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, direction: Int) {
                 if (direction==ItemTouchHelper.RIGHT) {
                     contactViewModel.delete(adapter.getContactAt(viewHolder.adapterPosition))
@@ -75,7 +76,7 @@ val recycler_view: androidx.recyclerview.widget.RecyclerView =findViewById(R.id.
             }
         }
         ).attachToRecyclerView(recycler_view)
-
+//al darle click a un contacto se puede editar
         adapter.setOnItemClickListener(object :ContactAdapter.onItemClickListener{
             override fun onItemClick(contact: Contact){
                 var intent=Intent(baseContext, AgregarEditarContactoActivity::class.java)
@@ -94,7 +95,7 @@ val recycler_view: androidx.recyclerview.widget.RecyclerView =findViewById(R.id.
         menuInflater.inflate(R.menu.mainmenu, menu)
         return true
     }
-
+//opcion de borrar contactos en opcion de arriba
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId){
             R.id.delete_all_notes->{
@@ -107,7 +108,7 @@ val recycler_view: androidx.recyclerview.widget.RecyclerView =findViewById(R.id.
             }
         }
     }
-
+//request de crear un nuevo contacto
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 

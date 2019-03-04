@@ -3,10 +3,10 @@ package com.example.maria.laboratorio7.data
 import android.app.Application
 import androidx.lifecycle.LiveData
 import android.os.AsyncTask
-
+//clase que se encarga de la sincronizacion de contactos en la app utilizando metodo del contactDAO
 class ContactRepository(application: Application) {
     private var contactDao: ContactDao
-
+//LIvedata por se actualiza inmediatamente
     private var todosContactos: LiveData<List<Contact>>
 
     init {

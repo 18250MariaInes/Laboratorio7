@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import com.example.maria.laboratorio7.data.Contact
 import com.example.maria.laboratorio7.data.ContactRepository
 
-
+//viewmodel de la arquitectura de android que utiliza el contactrepository para el manejo de datos por metodos CRUD
 class ContactViewModel (application: Application): AndroidViewModel(application){
     private var repository:ContactRepository= ContactRepository(application)
     private var allContacts: LiveData<List<Contact>> = repository.getAllContacts()
